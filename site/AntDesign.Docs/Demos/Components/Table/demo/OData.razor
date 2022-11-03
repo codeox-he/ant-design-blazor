@@ -1,0 +1,29 @@
+﻿@using AntDesign.TableModels
+@using Microsoft.OData.SampleService.Models.TripPin
+
+<Table TItem="Person" DataSource="_data" @bind-PageIndex="_pageIndex" @bind-PageSize="_pageSize" Total="_total"
+       Loading="_loading" OnChange="HandleTableChange" RemoteDataSource>
+    <PropertyColumn Style="width:20%;" Property="c=>c.UserName" Sortable DefaultSortOrder="SortDirection.Ascending"></PropertyColumn>
+    <PropertyColumn Style="width:20%;" Property="c=>c.Gender" Filterable DefaultSortOrder="SortDirection.Descending" />
+</Table>
+
+@code {
+    bool _loading = false;
+    int _pageIndex = 1;
+    int _pageSize = 5;
+    int _total;
+    Person[] _data = Array.Empty<Person>();
+
+    void HandleTableChange(QueryModel<Person> queryModel)
+    {
+        _loading = true;
+
+        DefaultContainer dsc = new DefaultContainer(new Uri("https://services.odata.org/V4/(S(uvf1y321yx031rnxmcbqmlxw))/TripPinServiceRW/"));
+        var query = dsc.People.ExecuteTableQuery(queryModel);
+
+        _data = query.ToArray();
+        _total = 100;
+
+        _loading = false;
+    }
+}
