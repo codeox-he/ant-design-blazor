@@ -1391,7 +1391,7 @@ namespace AntDesign
         /// <param name="e">Contains the key (combination) which was pressed inside the Input element</param>
         protected async Task OnKeyUpAsync(KeyboardEventArgs e)
         {
-            if (e == null) throw new ArgumentNullException(nameof(e));
+            if (e == null || e.Key == null) return;
 
             var key = e.Key.ToUpperInvariant();
             var overlayFirstOpen = false;
@@ -1761,7 +1761,7 @@ namespace AntDesign
         /// </summary>
         protected async Task OnKeyDownAsync(KeyboardEventArgs e)
         {
-            if (e == null) throw new ArgumentNullException(nameof(e));
+            if (e == null || e.Key == null) return;
 
             var key = e.Key.ToUpperInvariant();
 
